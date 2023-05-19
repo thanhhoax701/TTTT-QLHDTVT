@@ -1,0 +1,77 @@
+/* Giao diện chung */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    background-color: #333;
+    color: #0000;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+/* Header */
+
+.main-logo {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
+    background: #1050aa;
+}
+
+.main-logo img {
+    max-width: 100%;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    padding: 0;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 20px;
+}
+
+h1,
+h2,
+h3 {
+    margin-bottom: 10px;
+}
+
+
+/* Footer */
+
+footer {
+    background-color: #f4f4f4;
+    color: #333;
+    padding: 10px;
+    text-align: center;
+}
