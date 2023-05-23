@@ -1,0 +1,15 @@
+1) Cài đặt Composor: https://getcomposer.org/Composer-Setup.exe
+
+2) git clone https://github.com/Thanhphong312/Be_projectqlhdbts.git
+
+3) Copy file .env.example ra file mới và đổi tên thành .env
+
+4) Thực hiện lệnh: 
+composer install 
+php artisan key:generate
+
+5) Mở phpMyAdmin tạo CSDL tên qlhdtvt, sau đó thực hiện lệnh
+php artisan migrate
+php artisan db:seed UserSeeder
+
+

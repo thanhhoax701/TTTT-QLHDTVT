@@ -85,7 +85,9 @@ run
 
     php artisan key:generate
 
-    php artisan magrite 
+tao database ten qlhdtvt
+    
+    php artisan migrate 
 
-    php artisan db:seed
+    php artisan db:seed UserSeeder
 
