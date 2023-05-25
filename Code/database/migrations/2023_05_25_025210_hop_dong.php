@@ -13,15 +13,19 @@ return new class extends Migration
     {
         Schema::create('Hop_Dong', function (Blueprint $table) {
             $table->string('HD_MaHD')->primary();
-            $table->string('ND_MaND');
+            $table->bigInteger('ND_MaND')->unsigned();
+            $table->foreign('ND_MaND')->references('id')->on('users');
             $table->string('T_MaTram');
+            $table->foreign('T_MaTram')->references('T_MaTram')->on('Tram');
             $table->string('DV_MaDV');
+            $table->foreign('DV_MaDV')->references('DV_MaDV')->on('Don_Vi');
             $table->string('CSHT_MaCSHT');
-            $table->string('HD_MaND');
+            $table->foreign('CSHT_MaCSHT')->references('CSHT_MaCSHT')->on('Co_So_Ha_Tang');
+            // $table->string('HD_MaND');
             $table->string('HD_MaCSHT');
             $table->string('HD_MaDV');
             $table->string('HD_MaTram');
-            $table->string('HD_TenTram');
+            $table->string('T_TenTram');
             $table->string('HD_NgayDangKy');
             $table->string('HD_NgayHetHan');
             $table->string('HD_NgayPhuLuc');
@@ -32,6 +36,8 @@ return new class extends Migration
             $table->string('HD_TenNH');
             $table->string('HD_TenChuDauTu');
             $table->string('HD_HDScan');
+            $table->timestamps();
+
         });
     }
 

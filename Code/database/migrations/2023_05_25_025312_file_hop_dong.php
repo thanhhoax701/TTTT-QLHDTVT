@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('File_Hop_Dong', function (Blueprint $table) {
             $table->string('F_File')->primary();
-            $table->string('HD_MaND');
+            $table->string('HD_MaHD');
+            $table->foreign('HD_MaHD')->references('HD_MaHD')->on('Hop_Dong');
             $table->string('F_MaND');
             $table->string('F_Loai');
             $table->string('F_NgayTao');
             $table->string('F_NgaySua');
+            $table->timestamps();
+
         });
     }
 

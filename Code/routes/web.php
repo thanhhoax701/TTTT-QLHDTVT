@@ -1,6 +1,8 @@
 <?php
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\testController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -24,9 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     // router home 
     Route::get('/', [HomeController::class,'index'])->name('home');
-    Route::get('/logout', function(){
-        Auth::logout();
-    });
+    Route::get('/logout',[LogoutController::class,'getLogout'])->name('logout');
+    Route::get('/test',[testController::class,'test'])->name('test');
 
     // --------------
 });
