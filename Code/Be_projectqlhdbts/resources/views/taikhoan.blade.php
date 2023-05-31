@@ -43,14 +43,11 @@
             </nav>
 
             <!-- Content -->
-            <!-- Add tài khoản-->
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
-                    <i class="fas fa-plus"></i> Thêm</button>
-            </div>
-
-            <!-- Table show tài khoản  -->
             <div class="container">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
+                        <i class="fas fa-plus"></i> Thêm</button>
+                </div>
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
@@ -62,11 +59,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $stt = 1 ?>
+                        @foreach($taikhoan as $row)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Nguyễn Văn A</td>
-                            <td>aaaa@gmail.com</td>
-                            <td>12345678</td>
+                            <th scope="row"><?= $stt++ ?></th>
+                            <td>{{$row->name}}</td>
+                            <td>{{$row->email}}</td>
+                            <td>{{$row->password}}</td>
                             <td>
                                 <button class="btn btn-primary me-md-3">
                                     <i class="fas fa-eye"></i> Xem
@@ -76,22 +75,49 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Trần Văn B</td>
-                            <td>bbbb@gmail.com</td>
-                            <td>abc12345</td>
-                            <td>
-                                <button class="btn btn-primary me-md-3">
-                                    <i class="fas fa-eye"></i> Xem
-                                </button>
-                                <button class="btn btn-danger me-md-3">
-                                    <i class="fas fa-trash-alt"></i> Xóa
-                                </button>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
+            </div>
+
+            <div class="container col-md-5 mt-2">
+                <div class="alert alert-primary">
+                    <form>
+                        <div class="row justify-content-center mb-2">
+                            <h5 class="text-center" style="font-weight: bold;" id="">THÔNG TIN TÀI KHOẢN</h5>
+
+                            <div class="container">
+                                <div class="row mb-2">
+                                    <div class="col-6 col-sm-6">Họ và tên:</div>
+                                    <div class="col-6 col-sm-6">Bùi Phương Thảo</div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-6 col-sm-6">Giới tính:</div>
+                                    <div class="col-6 col-sm-6">
+                                        <label><input type="checkbox" name="html" value="html"> Nam</label>
+                                        <label><input type="checkbox" name="html" value="html" checked> Nữ</label><br />
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-6 col-sm-6">Địa chỉ:</div>
+                                    <div class="col-6 col-sm-6"> Ninh Kiều - Cần Thơ</div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-6 col-sm-6">Email:</div>
+                                    <div class="col-6 col-sm-6">bpthao1234@gmail.com</div>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <div class="col-6 col-sm-6"> Mật khẩu:</div>
+                                    <div class="col-6 col-sm-6">********</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

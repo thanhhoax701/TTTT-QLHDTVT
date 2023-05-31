@@ -43,14 +43,11 @@
             </nav>
 
             <!-- Content -->
-            <!-- Add_CSHT-->
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
-                    <i class="fas fa-plus"></i> Thêm</button>
-            </div>
-
-            <!-- Table_show_CSHT  -->
             <div class="container">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
+                        <i class="fas fa-plus"></i> Thêm</button>
+                </div>
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
@@ -61,10 +58,12 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $stt = 1 ?>
+                        @foreach($csht as $row)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>MH001</td>
-                            <td>Hậu Giang</td>
+                            <th scope="row"><?= $stt++ ?></th>
+                            <td>{{$row->CSHT_MaCSHT}}</td>
+                            <td>{{$row->CSHT_TenCSHT}}</td>
                             <td>
                                 <button class="btn btn-primary me-md-3">
                                     <i class="fas fa-edit"></i> Sửa
@@ -74,21 +73,61 @@
                                 </button>
                             </td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>MH002</td>
-                            <td>Hậu Giang</td>
-                            <td>
-                                <button class="btn btn-primary me-md-3">
-                                    <i class="fas fa-edit"></i> Sửa
-                                </button>
-                                <button class="btn btn-danger me-md-3">
-                                    <i class="fas fa-trash-alt"></i> Xóa
-                                </button>
-                            </td>
-                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Them CSHT -->
+            <div class="container col-md-5 mt-2">
+                <div class="alert alert-primary">
+                    <form>
+                        <div class="row justify-content-center">
+                            <h5 class="text-center" style="font-weight: bold;" id="">THÊM CƠ SỞ HẠ TẦNG</h5>
+                        </div>
+                        <div class="mb-3 text-left">
+                            <label class="form-label">Mã CSHT
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập mã CSHT!">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên CSHT
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập tên CSHT!">
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-success col-md-5" id="">Thêm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Chinh sua CSHT -->
+            <div class="container col-md-5 mt-2">
+                <div class="alert alert-primary">
+                    <form>
+                        <div class="row justify-content-center">
+                            <h5 class="text-center" style="font-weight: bold;" id="">CHỈNH SỬA CƠ SỞ HẠ TẦNG</h5>
+                        </div>
+                        <div class="mb-3 text-left">
+                            <label class="form-label">Mã CSHT
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập mã CSHT">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên CSHT
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập tên CSHT">
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-success col-md-5" id="">Chỉnh sửa</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

@@ -43,14 +43,11 @@
             </nav>
 
             <!-- Content -->
-            <!-- Add trạm-->
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
-                    <i class="fas fa-plus"></i> Thêm</button>
-            </div>
-
-            <!-- Table show trạm  -->
             <div class="container">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
+                        <i class="fas fa-plus"></i> Thêm</button>
+                </div>
                 <table class="table table-bordered text-center">
                     <thead>
                         <tr>
@@ -63,26 +60,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $stt = 1 ?>
+                        @foreach($tram as $row)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>TLM001</td>
-                            <td>Long_Binh_HUG</td>
-                            <td>Long Binh_Hau Giang</td>
-                            <td><input type="checkbox" name="tinhtrang" checked></td>
-                            <td>
-                                <button class="btn btn-primary me-md-3">
-                                    <i class="fas fa-edit"></i> Sửa
-                                </button>
-                                <button class="btn btn-danger me-md-3">
-                                    <i class="fas fa-trash-alt"></i> Xóa
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>TLM002</td>
-                            <td>Vi_Thuy_HUG</td>
-                            <td>Vi Thuy_Hau Giang</td>
+                            <th scope="row"><?= $stt++ ?></th>
+                            <td>{{$row->T_MaTram}}</td>
+                            <td>{{$row->T_TenTram}}</td>
+                            <td>{{$row->T_DiaChiTram}}</td>
                             <td><input type="checkbox" name="tinhtrang"></td>
                             <td>
                                 <button class="btn btn-primary me-md-3">
@@ -93,8 +77,35 @@
                                 </button>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
+            </div>
+
+            <!-- Them tram -->
+            <div class="container col-md-5 mt-2">
+                <div class="alert alert-primary">
+                    <form>
+                        <div class="row justify-content-center">
+                            <h5 class="text-center" style="font-weight: bold;" id="">THÊM TRẠM</h5>
+                        </div>
+                        <div class="mb-3 text-left">
+                            <label class="form-label">Mã trạm
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập mã trạm!">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên trạm
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập tên trạm!">
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-success col-md-5" id="">Thêm</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

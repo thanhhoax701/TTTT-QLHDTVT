@@ -43,27 +43,11 @@
             </nav>
 
             <!-- Content -->
-            <!-- import data -->
-            <!-- <form action="{{url('import-csv')}}" method="POST" enctype="multipart/form-data">
-            @csrf 
-                <input type="file" name="file" accept=".xlsx"><br>
-                <input type="submit" value="Import File Excel" name="import_csv" class="btn btn-warning">
-            </form> -->
-
-            <!-- export data -->
-            <!-- <form action="{{url('export-csv')}}" method="POST">
-            @csrf 
-                <input type="submit" value="Export File Excel" name="export_csv" class="btn btn-success">
-            </form> -->
-
-            <!-- Add hợp đồng -->
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
-                    <i class="fas fa-upload"></i> Cập nhật hợp đồng</button>
-            </div>
-
-            <!-- Table show hợp đồng -->
             <div class="container" style="max-width: 1280px;">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-success me-md-2 mt-1 mb-1" type="button">
+                        <i class="fas fa-upload"></i> Cập nhật hợp đồng</button>
+                </div>
                 <div class="col-12">
                     <div class="table-responsive">
                         <table class="table table-bordered text-center">
@@ -86,19 +70,21 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php $stt = 1 ?>
+                                @foreach($hopdong as $row)
                                 <tr>
-                                    <th scope="row">1</th>
-                                    <td>Nguyễn Thị Huỳnh Cẩm</td>
-                                    <td>954868888</td>
-                                    <td>ACB CN Hậu Giang</td>
-                                    <td><input type="date" name="" id=""></td>
-                                    <td><input type="date" name="" id=""></td>
-                                    <td>5.400.000 VNĐ</td>
-                                    <td>TLM001</td>
-                                    <td>Long-Binh_HUG</td>
-                                    <td>CSHT_HUG_00118</td>
-                                    <td>Nguyễn Thị Huỳnh Cẩm</td>
-                                    <td>Scan HĐ, BBNT, PL</td>
+                                    <th scope="row"><?= $stt++ ?></th>
+                                    <td>{{$row->HD_TenCTK}}</td>
+                                    <td>{{$row->HD_SoTaiKhoan}}</td>
+                                    <td>{{$row->HD_TenNH}}</td>
+                                    <td>{{$row->HD_NgayDangKy}}</td>
+                                    <td>{{$row->HD_NgayHetHan}}</td>
+                                    <td>{{$row->HD_GiaHienTai}} VNĐ</td>
+                                    <td>{{$row->T_MaTram}}</td>
+                                    <td>{{$row->T_TenTram}}</td>
+                                    <td>{{$row->HD_MaCSHT}}</td>
+                                    <td>{{$row->HD_TenChuDauTu}}</td>
+                                    <td>{{$row->HD_HDScan}}</td>
                                     <td><input type="date" name="" id=""></td>
                                     <td>
                                         <button class="btn btn-primary me-md-3">
@@ -109,36 +95,69 @@
                                         </button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Châu Thanh Nhã</td>
-                                    <td>954867777</td>
-                                    <td>ACB CN Cần Thơ</td>
-                                    <td><input type="date" name="" id=""></td>
-                                    <td><input type="date" name="" id=""></td>
-                                    <td>15.400.000 VNĐ</td>
-                                    <td>TLM002</td>
-                                    <td>Vi-Thuy_HUG</td>
-                                    <td>CSHT_HUG_00218</td>
-                                    <td>Châu Thanh Nhã</td>
-                                    <td>Scan HĐ, BBNT, PL</td>
-                                    <td><input type="date" name="" id=""></td>
-                                    <td>
-                                        <button class="btn btn-primary me-md-3">
-                                            <i class="fas fa-edit"></i> Chi tiết
-                                        </button>
-                                        <button class="btn btn-secondary me-md-3">
-                                            <i class="fas fa-download"></i> Tải về
-                                        </button>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!-- Cap nhat hop dong -->
+            <div class="container col-md-5 mt-2">
+                <div class="alert alert-primary">
+                    <form>
+                        <div class="row justify-content-center">
+                            <h5 class="text-center" style="font-weight: bold;" id="">CẬP NHẬT HỢP ĐỒNG</h5>
+                        </div>
+                        <div class="mb-3 text-left">
+                            <label class="form-label">Tên tài khoản
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập tên tài khoản">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số tài khoản
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập số tài khoản">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên ngân hàng
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập tên ngân hàng">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tên trạm
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập tên trạm">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Giá
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="text" placeholder="Vui lòng nhập giá">
+                        </div>
+                        <div class="row justify-content-center">
+                            <button type="submit" class="btn btn-success col-md-5" id="">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- import data -->
+            <!-- <form action="{{url('import')}}" method="POST" enctype="multipart/form-data">
+            @csrf 
+                <input type="file" name="file" accept=".xlsx"><br>
+                <input type="submit" value="Import File Excel" name="import" class="btn btn-warning">
+            </form> -->
+            <!-- export data -->
+            <!-- <form action="{{url('export')}}" method="GET">
+            @csrf 
+                <input type="submit" value="Export File Excel" name="export" class="btn btn-success">
+            </form> -->
+        </div>
     </div>
     <!-- end body -->
 </div>
