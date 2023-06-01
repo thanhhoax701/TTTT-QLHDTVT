@@ -35,11 +35,28 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::get('/test', [testController::class, 'test'])->name('test');
 Route::get('/thongke', [ThongKeController::class, 'index'])->name('thongke');
-Route::get('/csht', [CSHTController::class, 'index'])->name('csht');
+//tram
 Route::get('/tram', [TramController::class, 'index'])->name('tram');
-Route::get('/taikhoan', [TaiKhoanController::class, 'index'])->name('taikhoan');
+Route::get('/tram/them', [TramController::class, 'them'])->name('tram-them');
+Route::post('/tram/them', [TramController::class, 'store'])->name('tram-store');
+Route::get('/tram/chinhsua', [TramController::class, 'chinhsua'])->name('tram-chinhsua');
+// hop dong 
 Route::get('/hopdong', [HopDongController::class, 'index'])->name('hopdong');
+Route::get('/hopdong/capnhat', [HopDongController::class, 'capnhat'])->name('hopdong-capnhat');
+// csht 
+Route::get('/csht', [CSHTController::class, 'index'])->name('csht');
+Route::get('/csht/them', [CSHTController::class, 'them'])->name('csht-them');
+Route::post('/csht/them', [CSHTController::class, 'store'])->name('csht-store');
+Route::get('/csht/chinhsua', [CSHTController::class, 'chinhsua'])->name('csht-chinhsua');
+// tai khoan 
+Route::get('/taikhoan', [TaiKhoanController::class, 'index'])->name('taikhoan');
+Route::get('/taikhoan/them', [TaiKhoanController::class, 'them'])->name('taikhoan-them');
+Route::post('/taikhoan/them', [TaiKhoanController::class, 'store'])->name('taikhoan-store');
+Route::get('/taikhoan/hienthi', [TaiKhoanController::class, 'hienthi'])->name('taikhoan-hienthi');
+Route::get('/taikhoan/xoa/{id}', [TaiKhoanController::class, 'xoa'])->name('taikhoan-xoa');
+
 
 // -------------- Hop Dong
-Route::post('/import', [HopDongController::class, 'inport'])->name('import');
+Route::get('/import', [HopDongController::class, 'index'])->name('import');
 Route::get('/export', [HopDongController::class, 'export'])->name('export');
+Route::post('/start-import', [HopDongController::class, 'import'])->name('start-import');
