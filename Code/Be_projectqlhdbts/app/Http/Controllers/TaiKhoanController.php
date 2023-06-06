@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\redirect;
 
 class TaiKhoanController extends Controller
 {
@@ -19,70 +20,83 @@ class TaiKhoanController extends Controller
         $title = 'Tài Khoản';
         $breadcrumbs = ['Tài khoản'];
 
-        $taikhoan['taikhoan'] = DB::table('users')->get()->toArray();
+        $taikhoans = User::get();
 
-        return view('taikhoan/taikhoan', compact('title','breadcrumbs'), $taikhoan);
+        return view('taikhoan/taikhoan', compact('title', 'taikhoans', 'breadcrumbs'));
     }
 
-    public function them() {
+    public function them()
+    {
         $title = 'Tài Khoản';
-        $breadcrumbs = ['Tài khoản','Thêm'];
+        $breadcrumbs = ['Tài khoản', 'Thêm'];
 
-        return view('taikhoan/them', compact('title','breadcrumbs'));
+        return view('taikhoan/them', compact('title', 'breadcrumbs'));
     }
 
-    public function hienthi() {
+    public function hienthi(Request $request)
+    {
         $title = 'Tài Khoản';
-        $breadcrumbs = ['Tài khoản','Chi tiết'];
-        return view('taikhoan/hienthi', compact('title','breadcrumbs'));
+        $breadcrumbs = ['Tài khoản', 'Chi tiết'];
 
-        $taikhoan = User::where('id', '=' , $id)->select('*')->first();
-        $des = html_entity_decode($taikhoan->description);
-        return view('taikhoan/hienthi', compact('taikhoan', 'des'));
+        $hienthitaikhoan = User::where('id', $request->id)->get();
+
+        return view('taikhoan/hienthi', compact('title', 'hienthitaikhoan', 'breadcrumbs'));
+    }
+
+    public function sua(Request $request)
+    {
+        // dd($request);
+        $title = 'Sửa tài Khoản ';
+        $hienthitaikhoan = User::where('id', $request->id)->first();
+        $breadcrumbs = ['Tài khoản', 'Chi tiết'];
+        // dd($hienthitaikhoan);
+        return view('taikhoan/hienthi', compact('title', 'hienthitaikhoan', 'breadcrumbs'));
     }
 
     public function store(Request $request)
     {
         $addtaikhoan = new User();
-        $addtaikhoan->ND_MaND = "ND_".$request->input('maND');
+        $addtaikhoan->ND_MaND = $request->input('maND');
         $addtaikhoan->name = $request->input('name');
-        $addtaikhoan->ND_GioiTinh = ($request->input('gioiTinh')==1)?'nam':'nu';
+        $addtaikhoan->ND_GioiTinh = ($request->input('gioiTinh') == 1) ? 'Nam' : 'Nu';
         $addtaikhoan->ND_DiaChi = $request->input('diaChi');
         $addtaikhoan->email = $request->input('email');
         $addtaikhoan->password = $request->input('password');
         $addtaikhoan->ND_SDT = $request->input('sdt');
+        $addtaikhoan->ND_LoaiND = $request->input('loaiND');
 
         $addtaikhoan->save();
 
         return redirect()->route('taikhoan')->with('success', 'Thêm thành công');
     }
-    public function xoa(Request $request){
+
+    public function xoa(Request $request)
+    {
         $user = User::find($request->id);
         $quyennguoidungs = QuyenNguoiDung::where('ND_MaND', $user->id)->get();
         // dd($quyennguoidungs);
-        if(!empty($quyennguoidungs)){
+        if (!empty($quyennguoidungs)) {
             foreach ($quyennguoidungs as $quyennguoidung) {
                 $quyennguoidung->delete();
             }
         }
-        
 
         $nguoidungdonvis = NguoiDungDonVi::where('ND_MaND', $user->id)->get();
-        if(!empty($nguoidungdonvis)){
+        if (!empty($nguoidungdonvis)) {
             foreach ($nguoidungdonvis as $nguoidungdonvi) {
                 $nguoidungdonvi->delete();
             }
         }
+
         $hopdongs = HopDong::where('ND_MaND', $user->id)->get();
-        
-        if(!empty($hopdongs)){
+        if (!empty($hopdongs)) {
             foreach ($hopdongs as $hopdong) {
                 $dongias = $hopdong->dongias;
-                foreach($dongias as $dongia){
+                foreach ($dongias as $dongia) {
                     $dongia->whereNotNull('DG_MaDG')->delete();
                 }
                 $files = $hopdong->filehopdongs;
-                foreach($files as $file){
+                foreach ($files as $file) {
                     $file->whereNotNull('F_MaFile')->delete();
                 }
                 // dd($dongias);
@@ -90,6 +104,6 @@ class TaiKhoanController extends Controller
             }
         }
         $user->delete();
-        return redirect()->route('taikhoan')->with('success', 'xóa thành công');
+        return redirect()->route('taikhoan')->with('success', 'Xóa thành công');
     }
 }

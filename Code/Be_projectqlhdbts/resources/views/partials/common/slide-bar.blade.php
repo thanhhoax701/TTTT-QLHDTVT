@@ -20,9 +20,6 @@
                 <li>
                     <a href="{{route('tram-them')}}">Thêm</a>
                 </li>
-                <li>
-                    <a href="{{route('tram-chinhsua')}}">Chỉnh sửa</a>
-                </li>
                 @endif
             </ul>
         </li>
@@ -49,9 +46,6 @@
                 <li>
                     <a href="{{route('csht-them')}}">Thêm</a>
                 </li>
-                <li>
-                    <a href="{{route('csht-chinhsua')}}">Chỉnh sửa</a>
-                </li>
                 @endif
             </ul>
         </li>
@@ -60,9 +54,6 @@
             <ul class="collapse list-unstyled" id="pageTaiKhoan">
                 <li>
                     <a href="{{route('taikhoan')}}">Tài khoản</a>
-                </li>
-                <li>
-                    <a href="{{route('taikhoan-hienthi')}}">Chi tiết</a>
                 </li>
                 @if(count($allrole)==4)
                 <li>
