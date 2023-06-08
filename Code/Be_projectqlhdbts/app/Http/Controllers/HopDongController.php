@@ -21,9 +21,12 @@ class HopDongController extends Controller
     {
         $title = 'Hợp Đồng';
         $breadcrumbs = ['Hợp đồng'];
-        $hopdong['hopdong'] = DB::table('hop_dong')->get()->toArray();
-
-        return view('hopdong/hopdong', compact('title', 'breadcrumbs'), $hopdong);
+        $dv=auth()->user()->nguoidungdonvis()->first();
+        if(!empty($dv))
+            $hopdong['hopdong'] = DB::table('hop_dong')->where('DV_MaDV',$dv->DV_MaDV)->get()->toArray();
+        else
+            $hopdong['hopdong'] = DB::table('hop_dong')->get()->toArray();
+        return view('hopdong/hopdong', compact('title','breadcrumbs'), $hopdong);
     }
 
     public function capnhat(Request $request)
@@ -55,6 +58,8 @@ class HopDongController extends Controller
             'HD_MaCSHT' => $request->CSHT_MaCSHT,
             'HD_TenChuDauTu' => $request->HD_TenChuDauTu,
             'HD_NgayPhuLuc' => $request->HD_NgayPhuLuc,
+            'Nguoiky' => $request->HD_Nguoiky,
+            'Khachhang' => $request->HD_Khachhang,
             'HD_HDScan' => $request->HD_HDScan,
         ]);
         if ($capnhathopdong) {
@@ -64,25 +69,25 @@ class HopDongController extends Controller
         return redirect()->route('hopdong')->with('success', 'Cập nhật không thành công, không được chỉnh sửa mã hợp đồng');
     }
 
-    public function import(Request $request)
+    public function import(Request $request) 
     {
         // dd($request);
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(),[
             'file' => 'required'
         ]);
-        if ($validator->passes()) {
-
+        if($validator->passes()){
+            
             $file = $request->file;
             $ext = $file->getClientOriginalExtension();
-            $fileName = time() . '.' . $ext;
-            $file->move(public_path() . '/uploads', $fileName);
-            $path = public_path() . '/uploads/' . $fileName;
+            $fileName = time().'.'.$ext;
+            $file->move(public_path().'/uploads',$fileName);
+            $path = public_path().'/uploads/'.$fileName;
             // dd('a');
 
             Excel::import(new HDImport, $path);
             return redirect(route('import'))->with('success', 'import thành công');
-        } else {
+        }else{
             return redirect()->back()->withErrors($validator);
         }
     }
@@ -91,4 +96,5 @@ class HopDongController extends Controller
     {
         return Excel::download(new HDExport, 'HD.xlsx');
     }
+    
 }
