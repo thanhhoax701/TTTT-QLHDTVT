@@ -21,12 +21,19 @@
     <!-- Page Content  -->
     <div id="content">
     @include('partials.common.tieude')
-        <?php
-           $quyens=auth()->user()->quyennguoidungs()->first();   
-        ?>
+        @php
+           $quyen=null;   
+           if(auth()->user()){
+            if(auth()->user()->quyennguoidungs()){
+                if(auth()->user()->quyennguoidungs()->first()){
+                    $quyen = auth()->user()->quyennguoidungs()->first()->Q_MaQ;
+                }
+            }
+        }
+        @endphp
       <div class="container text-center p-2">
         <div class="row align-items-center gx-2  row-item-home">
-          @if($quyens->Q_MaQ!='Q2')
+          @if($quyen!='Q2')
           <div class="col-6 col-md-4 rounded-3 border border-dark">
             <a href="{{route('tram')}}" class="item-home d-flex align-items-center justify-content-center">
               <div>
@@ -36,7 +43,7 @@
             </a>
           </div>
           @endif
-          @if($quyens->Q_MaQ!='Q0')
+          @if($quyen!='Q0')
           <div class="col-6 col-md-4 rounded-3 border border-dark">
             <a href="{{route('hopdong')}}" class="item-home d-flex align-items-center justify-content-center">
               <div>
@@ -46,7 +53,7 @@
             </a>
           </div>
           @endif
-        @if($quyens->Q_MaQ=='Q0')
+        @if($quyen=='Q0')
           <div class="col-6 col-md-4 rounded-3 border border-dark">
             <a href="{{route('csht')}}" class="item-home d-flex align-items-center justify-content-center">
               <div>

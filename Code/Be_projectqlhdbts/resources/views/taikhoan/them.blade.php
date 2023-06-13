@@ -26,16 +26,22 @@
             <!-- Content -->
             <div class="container col-md-5 mt-2">
                 <div class="alert alert-primary">
-                    <form method="POST" action="{{route('taikhoan-store')}}">
+                    <form method="POST" action="{{route('taikhoan-store')}}" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <h5 class="text-center" id="side12">THÊM TÀI KHOẢN</h5>
                         </div>
                         <div class="mb-3 text-left">
+                            <label class="form-label">Ảnh đại diện
+                                <span id="colorIcon">*</span>
+                            </label>
+                            <input class="form-control" type="file" name="avatar" placeholder="Vui lòng nhập mã người dùng">
+                        </div>
+                        <div class="mb-3 text-left">
                             <label class="form-label">Mã người dùng
                                 <span id="colorIcon">*</span>
                             </label>
-                            <input required class="form-control" type="text" name="maND" placeholder="Vui lòng nhập mã người dùng">
+                            <input required class="form-control" type="text" name="ND_MaND" placeholder="Vui lòng nhập mã người dùng">
                         </div>
                         <div class="mb-3 text-left">
                             <label class="form-label">Tên người dùng
@@ -74,7 +80,7 @@
                             <label class="form-label">SĐT
                                 <span id="colorIcon">*</span>
                             </label>
-                            <input required class="form-control" type="text" name="sdt" placeholder="Vui lòng nhập số điện thoại">
+                            <input required class="form-control" type="text" name="ND_SDT" placeholder="Vui lòng nhập số điện thoại">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Loại người dùng
@@ -87,7 +93,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Đon Vị
+                            <label class="form-label">Đơn Vị
                                 <span id="colorIcon">*</span>
                             </label>  
                             <select required class="form-control" aria-label="Default select example" id="secondSelect" name="Ma_DV" style="display: none;">

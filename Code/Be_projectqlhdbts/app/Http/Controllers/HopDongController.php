@@ -20,20 +20,36 @@ class HopDongController extends Controller
     public function index()
     {
         $title = 'Hợp Đồng';
-        $breadcrumbs = ['Hợp đồng'];
+        $breadcrumbs = [
+            [
+                'name'=>'Hợp đồng',
+                'link'=>'./hopdong'
+            ]
+        ];
         $dv=auth()->user()->nguoidungdonvis()->first();
         if(!empty($dv))
             $hopdong['hopdong'] = DB::table('hop_dong')->where('DV_MaDV',$dv->DV_MaDV)->get()->toArray();
         else
             $hopdong['hopdong'] = DB::table('hop_dong')->get()->toArray();
+
+
+
         return view('hopdong/hopdong', compact('title','breadcrumbs'), $hopdong);
     }
 
     public function capnhat(Request $request)
     {
         $title = 'Hợp Đồng';
-        $breadcrumbs = ['Hợp đồng', 'Cập nhật'];
 
+        $breadcrumbs = [
+            [
+                'name'=>'Hợp đồng',
+                'link'=>'../'
+            ],[
+                'name'=>'Cập nhật',
+                'link'=>'./'.$request->HD_MaHD
+            ]
+        ];
         $capnhathopdong = HopDong::where('HD_MaHD', $request->HD_MaHD)->get();
 
         $trams = Tram::get();

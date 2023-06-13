@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 08, 2023 at 06:06 AM
+-- Generation Time: Jun 13, 2023 at 05:09 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -58,14 +58,6 @@ CREATE TABLE `don_gia` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `don_gia`
---
-
-INSERT INTO `don_gia` (`DG_MaDG`, `HD_MaHD`, `DG_Thang`, `DG_Nam`, `DG_Gia`, `created_at`, `updated_at`) VALUES
-('DG1', 'HD1', 'DG_Thang_1', 'DG_Nam_1', '12000000', NULL, NULL),
-('DG2', 'HD2', 'DG_Thang_2', 'DG_Nam_2', '5000000', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -142,14 +134,6 @@ CREATE TABLE `file_hop_dong` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `file_hop_dong`
---
-
-INSERT INTO `file_hop_dong` (`F_MaFile`, `HD_MaHD`, `F_Loai`, `F_NgayTao`, `F_NgaySua`, `created_at`, `updated_at`) VALUES
-('F1', 'HD1', 'PDF', '2023-05-30', '2023-05-30', NULL, NULL),
-('F2', 'HD2', 'PDF', '2023-05-31', '2023-05-31', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -175,6 +159,7 @@ CREATE TABLE `hop_dong` (
   `HD_HDScan` varchar(255) NOT NULL,
   `Nguoiky` varchar(255) NOT NULL,
   `Khachhang` varchar(255) NOT NULL,
+  `HD_TT` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -183,9 +168,21 @@ CREATE TABLE `hop_dong` (
 -- Dumping data for table `hop_dong`
 --
 
-INSERT INTO `hop_dong` (`HD_MaHD`, `ND_MaND`, `T_MaTram`, `DV_MaDV`, `HD_MaCSHT`, `T_TenTram`, `HD_NgayDangKy`, `HD_NgayHetHan`, `HD_NgayPhuLuc`, `HD_GiaGoc`, `HD_GiaHienTai`, `HD_SoTaiKhoan`, `HD_TenCTK`, `HD_TenNH`, `HD_TenChuDauTu`, `HD_HDScan`, `Nguoiky`, `Khachhang`, `created_at`, `updated_at`) VALUES
-('HD1', 1, 'TLM001', 'DV1', 'CSHT_HUG_00118', 'Long_Binh_HUG', '2020-07-01', '2026-06-30', '2023-06-02', '1000000', '1200000', '564654546', 'Châu Thanh Nhã', 'ACB CN Hậu Giang', 'Nguyễn Thị Huỳnh Cầm', 'HD_Scan 1', 'Trần Thị Hòa', 'Trần Thị Hòa', NULL, '2023-06-07 20:10:22'),
-('HD2', 1, 'TLM001', 'DV1', 'CSHT_HUG_00118', 'Long_Binh_HUG', '2020-07-01', '2026-06-30', '2023-06-01', '1000000', '1200000', '564654546', 'Nguyễn Thị Huỳnh Cầm', 'ACB CN Hậu Giang', 'Nguyễn Thị Huỳnh Cầm', 'HD_Scan 2', 'Trần Thanh Hòa', 'Trần Thanh Hòa', NULL, NULL);
+INSERT INTO `hop_dong` (`HD_MaHD`, `ND_MaND`, `T_MaTram`, `DV_MaDV`, `HD_MaCSHT`, `T_TenTram`, `HD_NgayDangKy`, `HD_NgayHetHan`, `HD_NgayPhuLuc`, `HD_GiaGoc`, `HD_GiaHienTai`, `HD_SoTaiKhoan`, `HD_TenCTK`, `HD_TenNH`, `HD_TenChuDauTu`, `HD_HDScan`, `Nguoiky`, `Khachhang`, `HD_TT`, `created_at`, `updated_at`) VALUES
+('HD1', 13, 'TLM001', 'DV1', 'CSHT_HUG_00118', 'Long_Binh_HUG', '2020-07-01', '2026-06-30', '2023-06-13', '1000000', '1200000', '564654546', 'Nguyễn Thị Huỳnh Cầm', 'ACB CN Hậu Giang', 'Nguyễn Thị Huỳnh Cầm', 'https://drive.google.com/file/d/1tcuekDYEf7Wh6rdFZZzoEcWoMZIXK95z/view?usp=drive_link', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:20', '2023-06-12 19:54:43'),
+('HD10', 14, 'TLM002', 'DV1', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '321321321', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 10', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD11', 14, 'TLM001', 'DV1', 'CSHT_HUG_00118', 'Long_Binh_HUG', '2020-07-01', '2026-06-30', '2023-06-13', '1000000', '1200000', '2313211', 'Nguyễn Thị Huỳnh Cầm', 'ACB CN Hậu Giang', 'Nguyễn Thị Huỳnh Cầm', 'HD_Scan 1', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD12', 14, 'TLM002', 'DV2', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '321231', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 2', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD17', 13, 'TLM002', 'DV2', 'CSHT_HUG_00119', 'NCT', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '5313515315', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 2', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD18', 13, 'TLM001', 'DV1', 'CSHT_HUG_00118', 'Long_Binh_HUG', '2020-07-01', '2026-06-30', '2023-06-13', '1000000', '1200000', '564654546', 'Nguyễn Thị Huỳnh Cầm', 'ACB CN Hậu Giang', 'Nguyễn Thị Huỳnh Cầm', 'HD_Scan 1', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD2', 13, 'TLM001', 'DV1', 'CSHT_HUG_00118', 'Long_Binh_HUG', '2020-07-01', '2026-06-30', '2023-06-13', '1000000', '1200000', '564654546', 'Nguyễn Thị Huỳnh Cầm', 'ACB CN Hậu Giang', 'Nguyễn Thị Huỳnh Cầm', 'HD_Scan 1', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD3', 13, 'TLM002', 'DV1', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '23152123', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 3', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD4', 14, 'TLM002', 'DV1', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '66323131', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 4', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD5', 14, 'TLM002', 'DV1', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '65343521', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 5', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD6', 14, 'TLM001', 'DV1', 'CSHT_HUG_00118', 'Long_Binh_HUG', '2020-07-01', '2026-06-30', '2023-06-13', '1000000', '1200000', '5312322', 'Nguyễn Thị Huỳnh Cầm', 'ACB CN Hậu Giang', 'Nguyễn Thị Huỳnh Cầm', 'HD_Scan 6', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD7', 15, 'TLM002', 'DV1', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '32121312', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 7', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD8', 15, 'TLM002', 'DV1', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '32513221', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 8', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43'),
+('HD9', 15, 'TLM002', 'DV1', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', '2023-05-01', '2023-05-27', '2023-06-13', '20000000', '22000000', '32132123', 'Châu Thanh Nhã', 'BIDV CN Hậu Giang', 'Châu Thanh Nhã', 'HD_Scan 9', 'Trần Thị Hòa', 'Trần Thị Hòa', '1', '2023-06-12 19:52:21', '2023-06-12 19:54:43');
 
 -- --------------------------------------------------------
 
@@ -237,7 +234,8 @@ CREATE TABLE `nguoi_dung_don_vi` (
 --
 
 INSERT INTO `nguoi_dung_don_vi` (`id`, `ND_MaND`, `DV_MaDV`, `created_at`, `updated_at`) VALUES
-(1, 1, 'DV1', NULL, NULL);
+(5, 15, 'DV2', '2023-06-12 19:05:10', '2023-06-12 19:05:10'),
+(6, 16, 'DV1', '2023-06-12 20:02:42', '2023-06-12 20:02:42');
 
 -- --------------------------------------------------------
 
@@ -329,9 +327,10 @@ CREATE TABLE `quyen_nguoi_dung` (
 --
 
 INSERT INTO `quyen_nguoi_dung` (`id`, `Q_MaQ`, `ND_MaND`, `created_at`, `updated_at`) VALUES
-(1, 'Q0', 1, NULL, NULL),
-(2, 'Q1', 2, NULL, NULL),
-(3, 'Q2', 3, NULL, NULL);
+(8, 'Q0', 13, NULL, NULL),
+(9, 'Q1', 15, '2023-06-12 19:05:10', '2023-06-12 19:05:10'),
+(10, 'Q2', 14, NULL, NULL),
+(11, 'Q2', 16, '2023-06-12 20:02:42', '2023-06-12 20:02:42');
 
 -- --------------------------------------------------------
 
@@ -356,7 +355,7 @@ CREATE TABLE `tram` (
 --
 
 INSERT INTO `tram` (`T_MaTram`, `CSHT_MaCSHT`, `T_TenTram`, `T_DiaChiTram`, `T_TinhTrang`, `toado`, `Ma_DVQL`, `created_at`, `updated_at`) VALUES
-('TLM001', 'CSHT_HUG_00118', 'Long_Binh_HUG', 'Long Binh_Hau Giang', '1', 'QFRP+P6 Vị Thanh, Hậu Giang, Việt Nam', 1, NULL, NULL),
+('TLM001', 'CSHT_HUG_00118', 'Long_Binh_HUG', 'Long Binh_Hau Giang', '1', 'QFRP+P6 Vị Thanh, Hậu Giang, Việt Nam', 2, NULL, '2023-06-12 07:46:23'),
 ('TLM002', 'CSHT_HUG_00119', 'Vi_Thuy_HUG', 'Vi Thuy_Hau Giang', '0', 'QFRP+P6 Vị Thanh, Hậu Giang, Việt Nam', 1, NULL, NULL),
 ('TLM003', 'CSHT_HUG_00120', 'Long_My_HUG', 'Long My_HUG', '0', 'QFRP+P6 Vị Thanh, Hậu Giang, Việt Nam', 1, NULL, NULL);
 
@@ -369,6 +368,7 @@ INSERT INTO `tram` (`T_MaTram`, `CSHT_MaCSHT`, `T_TenTram`, `T_DiaChiTram`, `T_T
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `ND_MaND` varchar(255) NOT NULL,
+  `avatar` text NOT NULL,
   `name` varchar(255) NOT NULL,
   `ND_GioiTinh` varchar(255) NOT NULL,
   `ND_DiaChi` varchar(255) NOT NULL,
@@ -385,11 +385,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `ND_MaND`, `name`, `ND_GioiTinh`, `ND_DiaChi`, `email`, `email_verified_at`, `password`, `ND_SDT`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'ND_01', 'admin', 'Nam', 'Can Tho', 'admin@gmail.com', NULL, '$2y$10$YzX7O1nQayboyc/jl7wSD.9MK7uZ2XrKJzDAB4Nx4l0ulaUDlRgQ6', '123123', 'IPhUpjCUxqzZ4HohvaBgimO8WpPDHFase0cFHxzlP0mGrh1SGP3GVR7EVVv2', '2023-05-29 19:12:57', '2023-05-29 19:12:57'),
-(2, 'ND_02', 'user1', 'Nam', 'Cao Bằng', 'user1@gmail.com', NULL, '$2y$10$27MLcBUyJjaIh1bR2Y13Lex.9LzwoCq19alvSbF/38l4PQhTYknfa', '1', NULL, '2023-06-06 00:11:15', '2023-06-06 00:11:15'),
-(3, 'ND_03', 'user2', 'Nu', 'Cần Thơ', 'user2@gmail.com', NULL, '$2y$10$u9DISgazlaDazCzZwzp0eOdR30gjynIiaDlV5imOojkFj23TVc4JW', '2', NULL, '2023-06-06 00:11:55', '2023-06-06 00:11:55'),
-(8, 'ND_04', 'ABC', 'Nam', 'ABC', 'huynphong09@gmail.com', NULL, '$2y$10$Klq/suY3bVw0AZA88C8FPuS0vCAY6UWVO2XRQQNpcb5px5C1fE03e', '123', NULL, '2023-06-07 20:36:25', '2023-06-07 20:36:25');
+INSERT INTO `users` (`id`, `ND_MaND`, `avatar`, `name`, `ND_GioiTinh`, `ND_DiaChi`, `email`, `email_verified_at`, `password`, `ND_SDT`, `remember_token`, `created_at`, `updated_at`) VALUES
+(13, 'ND_01', '/avatar/admin.png', 'admin', 'Nam', 'Can Tho', 'admin@gmail.com', NULL, '$2y$10$YzX7O1nQayboyc/jl7wSD.9MK7uZ2XrKJzDAB4Nx4l0ulaUDlRgQ6', '123', NULL, NULL, NULL),
+(14, 'ND_02', 'avatar/kha.png', 'user1', 'Nam', 'CANTHO', 'user1@gmail.com', NULL, '$2y$10$1oVwJmpkYcElpKidUQWn2uSe8LZ.LL1QFr6LojNVYicb707GLfSxe', '1', NULL, '2023-06-12 19:03:39', '2023-06-12 19:03:39'),
+(15, 'ND_03', 'avatar/qpt.png', 'user2', 'Nam', 'CANTHO', 'user2@gmail.com', NULL, '$2y$10$2V79f.5RhaFoSACnEYGa9.1ictokDMCw1ubA.II8v.Rs1ZHaQOOVm', '2', NULL, '2023-06-12 19:05:10', '2023-06-12 19:05:10'),
+(16, 'ND_04', 'avatar/doraemon.png', 'user3', 'Nu', 'Hà Nội', 'user3@gmail.com', NULL, '$2y$10$0wu31Ol1h/CuSyl4LsEsKeI66RNuBY74MRbn7DeYhWp8Pra2BgBPG', '3', NULL, '2023-06-12 20:02:42', '2023-06-12 20:02:42');
 
 --
 -- Indexes for dumped tables
@@ -505,7 +505,8 @@ ALTER TABLE `tram`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD UNIQUE KEY `users_nd_sdt_unique` (`ND_SDT`);
+  ADD UNIQUE KEY `users_nd_sdt_unique` (`ND_SDT`),
+  ADD UNIQUE KEY `ND_MaND` (`ND_MaND`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -533,7 +534,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `nguoi_dung_don_vi`
 --
 ALTER TABLE `nguoi_dung_don_vi`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -551,13 +552,13 @@ ALTER TABLE `phu_luc`
 -- AUTO_INCREMENT for table `quyen_nguoi_dung`
 --
 ALTER TABLE `quyen_nguoi_dung`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
