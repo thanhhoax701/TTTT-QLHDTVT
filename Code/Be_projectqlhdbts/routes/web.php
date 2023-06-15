@@ -49,7 +49,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/hopdong', [HopDongController::class, 'index'])->name('hopdong');
     Route::get('/hopdong/capnhat/{HD_MaHD}', [HopDongController::class, 'capnhat'])->name('hopdong-capnhat');
     Route::post('/hopdong/update/{HD_MaHD}', [HopDongController::class, 'update'])->name('hopdong-update');
-    Route::get('/hopdong/timkiem', [TimkiemController::class, 'timkiem'])->name('hopdong-timkiem');
 
     // csht 
     Route::get('/csht', [CSHTController::class, 'index'])->name('csht');
@@ -64,12 +63,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/taikhoan/them', [TaiKhoanController::class, 'them'])->name('taikhoan-them');
     Route::post('/taikhoan/them', [TaiKhoanController::class, 'store'])->name('taikhoan-store');
     Route::get('/taikhoan/hienthi/{id}', [TaiKhoanController::class, 'hienthi'])->name('taikhoan-hienthi');
-    // Route::post('/taikhoan/view/{id}', [TaiKhoanController::class, 'view'])->name('taikhoan-view');
+    Route::any('/taikhoan/chinhsua/{id}', [TaiKhoanController::class, 'chinhsua'])->name('taikhoan-chinhsua');
     Route::get('/taikhoan/xoa/{id}', [TaiKhoanController::class, 'xoa'])->name('taikhoan-xoa');
 
 
     // -------------- Hop Dong
     Route::get('/import', [HopDongController::class, 'index'])->name('import');
-    Route::get('/export', [HopDongController::class, 'export'])->name('export');
+    Route::any('/export', [HopDongController::class, 'export'])->name('export');
     Route::post('/start-import', [HopDongController::class, 'import'])->name('start-import');
 });

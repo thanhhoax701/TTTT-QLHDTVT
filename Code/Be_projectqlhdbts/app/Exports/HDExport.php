@@ -3,16 +3,27 @@
 namespace App\Exports;
 
 use App\Models\HopDong;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use App\Invoice;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
-use Illuminate\Support\Facades\DB;
+use Request;
 class HDExport implements FromView
 {
+    protected $request;
+    public function __construct($request){
+        $this->request = $request;
+    }
     public function view(): View
     {
-        $HopDong = HopDong::get();
+        $hd = [];
+        if($this->request->has('exportall')){
+            $HopDong = HopDong::get();
+        }else{
+            foreach($this->request->DH as $value){
+                array_push($hd,$value);
+            }
+            $HopDong = HopDong::wherein('HD_MaHD', $hd)->get();
+        }
+        
         return view('HDexport', [
             'HopDong' => $HopDong
         ]);

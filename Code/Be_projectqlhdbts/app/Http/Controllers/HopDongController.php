@@ -17,24 +17,42 @@ use Illuminate\Support\Facades\Validator;
 
 class HopDongController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $title = 'Hợp Đồng';
         $breadcrumbs = [
             [
                 'name'=>'Hợp đồng',
-                'link'=>'./hopdong'
+                'link'=>'./'
             ]
         ];
-        $dv=auth()->user()->nguoidungdonvis()->first();
-        if(!empty($dv))
-            $hopdong['hopdong'] = DB::table('hop_dong')->where('DV_MaDV',$dv->DV_MaDV)->get()->toArray();
-        else
-            $hopdong['hopdong'] = DB::table('hop_dong')->get()->toArray();
+        $dv = auth()->user()->nguoidungdonvis()->first();
+        if ($request->get('search') != "") {
+            if(!empty($dv)){
+                $hopdong['hopdong'] = DB::table('hop_dong')->where('DV_MaDV', $dv->DV_MaDV)
+                        ->where('HD_MaHD', 'LIKE', '%'.$request->get('search').'%')
+                        ->orwhere('HD_MaCSHT', 'LIKE', '%'.$request->get('search').'%')
+                        ->orwhere('T_TenTram', 'LIKE', '%'.$request->get('search').'%')
+                        ->orwhere('T_MaTram', 'LIKE', '%'.$request->get('search').'%')->paginate(5);
+                    return view('hopdong/hopdong', compact('title', 'breadcrumbs'), $hopdong);
+            }else{
+                $hopdong['hopdong'] = DB::table('hop_dong')->where('HD_MaHD', 'LIKE', '%'.$request->get('search').'%')
+                        ->orwhere('HD_MaCSHT', 'LIKE', '%'.$request->get('search').'%')
+                        ->orwhere('T_TenTram', 'LIKE', '%'.$request->get('search').'%')
+                        ->orwhere('T_MaTram', 'LIKE', '%'.$request->get('search').'%')->paginate(5);
+                    return view('hopdong/hopdong', compact('title', 'breadcrumbs'), $hopdong);
+            }
 
+        }else{
+            if (!empty($dv))
+                $hopdong['hopdong'] = DB::table('hop_dong')->where('DV_MaDV', $dv->DV_MaDV)->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->paginate(5);
+            else
+                $hopdong['hopdong'] = DB::table('hop_dong')->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->paginate(5);
 
+        // dd($hopdong);
 
-        return view('hopdong/hopdong', compact('title','breadcrumbs'), $hopdong);
+        return view('hopdong/hopdong', compact('title', 'breadcrumbs'), $hopdong);
+        }
     }
 
     public function capnhat(Request $request)
@@ -43,11 +61,11 @@ class HopDongController extends Controller
 
         $breadcrumbs = [
             [
-                'name'=>'Hợp đồng',
-                'link'=>'../'
-            ],[
-                'name'=>'Cập nhật',
-                'link'=>'./'.$request->HD_MaHD
+                'name' => 'Hợp đồng',
+                'link' => '../'
+            ], [
+                'name' => 'Cập nhật',
+                'link' => './' . $request->HD_MaHD
             ]
         ];
         $capnhathopdong = HopDong::where('HD_MaHD', $request->HD_MaHD)->get();
@@ -85,32 +103,32 @@ class HopDongController extends Controller
         return redirect()->route('hopdong')->with('success', 'Cập nhật không thành công, không được chỉnh sửa mã hợp đồng');
     }
 
-    public function import(Request $request) 
+    public function import(Request $request)
     {
         // dd($request);
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'file' => 'required'
         ]);
-        if($validator->passes()){
-            
+        if ($validator->passes()) {
+
             $file = $request->file;
             $ext = $file->getClientOriginalExtension();
-            $fileName = time().'.'.$ext;
-            $file->move(public_path().'/uploads',$fileName);
-            $path = public_path().'/uploads/'.$fileName;
+            $fileName = time() . '.' . $ext;
+            $file->move(public_path() . '/uploads', $fileName);
+            $path = public_path() . '/uploads/' . $fileName;
             // dd('a');
 
             Excel::import(new HDImport, $path);
             return redirect(route('import'))->with('success', 'import thành công');
-        }else{
+        } else {
             return redirect()->back()->withErrors($validator);
         }
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new HDExport, 'HD.xlsx');
+        return Excel::download(new HDExport($request), 'HD.xlsx');
     }
     
 }
