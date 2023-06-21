@@ -30,8 +30,6 @@ class HopDong extends Model
         'HD_TenNH',
         'HD_TenChuDauTu',
         'HD_HDScan',
-        'Nguoiky',
-        'Khachhang',
         'created_at',
         'updated_at'
     ];
@@ -55,5 +53,8 @@ class HopDong extends Model
     public function nguoidung()
     {
         return $this->hasOne(nguoidung::class, 'id', 'ND_MaND');
+    }
+    public function phulucs(){
+        return $this->hasMany(PhuLuc::class, 'HD_MaHD', 'HD_MaHD');
     }
 }

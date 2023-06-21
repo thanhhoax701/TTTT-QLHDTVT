@@ -25,7 +25,9 @@
 
             <!-- Content -->
             <?php $stt = 1 ?>
-            @if ($hopdong->count() > 0)
+            @if (!empty($request->search)&&$hopdong->count() <= 0)
+            <h3 class="container">Hợp đồng đã tìm kiếm không tồn tại</h3>
+            @else
             <div class="container">
                 @csrf
                 <!--import-->
@@ -50,6 +52,9 @@
                         <button name="export" class="btn btn-secondary me-md-2 mt-1 mb-1">
                             Export
                         </button>
+                        <button name="exportall" class="btn btn-secondary me-md-2 mt-1 mb-1">
+                            Export All
+                        </button>
                     </div>
                     <div class="col-12">
                         <div class="table-responsive">
@@ -69,51 +74,44 @@
                                         <th scope="col-6 col-md-4">Tên chủ đầu tư</th>
                                         <th scope="col-6 col-md-4">Hợp đồng</th>
                                         <th scope="col-6 col-md-4">Ngày phụ lục</th>
-                                        <th scope="col-6 col-md-4">Người ký</th>
-                                        <th scope="col-6 col-md-4">Khánh hàng ký</th>
                                         <th scope="col-6 col-md-4">Tùy chỉnh</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach($hopdong as $row)
                                     <tr>
-                                        <input type="hidden" value="{{$row->HD_MaHD}}" name="DH[{{$row->HD_MaHD}}]">
+                                        <input type="hidden" value="{{$row->HD_MaHD}}" name="HD[{{$row->HD_MaHD}}]">
                                         <td>{{$row->HD_MaHD}}</td>
                                         <td>{{$row->HD_TenCTK}}</td>
                                         <td>{{$row->HD_SoTaiKhoan}}</td>
                                         <td>{{$row->HD_TenNH}}</td>
                                         <td>{{\Carbon\Carbon::parse($row->HD_NgayDangKy)->format('d/m/Y')}}</td>
                                         <td>{{\Carbon\Carbon::parse($row->HD_NgayHetHan)->format('d/m/Y')}}</td>
-                                        <td>{{number_format($row->HD_GiaHienTai)}} VNĐ</td>
+                                        <td>{{$row->HD_GiaHienTai}}</td>
                                         <td>{{$row->T_MaTram}}</td>
                                         <td>{{$row->T_TenTram}}</td>
                                         <td>{{$row->HD_MaCSHT}}</td>
                                         <td>{{$row->HD_TenChuDauTu}}</td>
                                         <td><a href="{{$row->HD_HDScan}}">Hợp Đồng PDF</a></td>
                                         <td>{{\Carbon\Carbon::parse($row->HD_NgayPhuLuc)->format('d/m/Y')}}</td>
-                                        <td>{{$row->Nguoiky}}</td>
-                                        <td>{{$row->Khachhang}}</td>
                                         <td>
                                             @if($quyens)
                                             <a href="{{route('hopdong-capnhat', $row->HD_MaHD)}}" class="btn btn-primary me-md-3">
                                                 <i class="fas fa-edit"></i> Cập nhật
                                             </a>
                                             @endif
-                                            <button class="btn btn-secondary me-md-3">
-                                                <i class="fas fa-download"></i> Tải về
-                                            </button>
+                                            <a class="btn btn-secondary me-md-3" href="{{ $row->HD_HDScan }}">Download PDF</a>
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
-                                @else <h3 class="container">Hợp đồng đã tìm kiếm không tồn tại</h3>
-                                @endif
                             </table>
                         </div>
                         {{ $hopdong->links() }}
                     </div>
                 </form>
             </div>
+            @endif
         </div>
     </div>
     <!-- end body -->
