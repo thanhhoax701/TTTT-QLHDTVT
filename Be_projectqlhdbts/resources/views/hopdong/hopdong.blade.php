@@ -9,10 +9,6 @@
 
 @section('content')
 <div class="content-main">
-    <!-- start search -->
-    @include('partials.common.search')
-    <!-- end search  -->
-
     <!-- start body -->
     <div class="wrapper">
         <!-- Sidebar  -->
@@ -29,6 +25,9 @@
             <h3 class="container">Hợp đồng đã tìm kiếm không tồn tại</h3>
             @else
             <div class="container">
+                  <!-- start search -->
+  @include('partials.common.search')
+  <!-- end search  -->
                 @csrf
                 <!--import-->
                 @php
@@ -95,9 +94,18 @@
                                             }else if($diffInDays>30){ 
                                                 if($diffInDays>60){ //xanh
                                                     $color = "black";
-                                                }else{//vang
+                                                }else{//cam
                                                     $color = "orange";
                                                 }
+                                            }
+                                            if ($diffInDays < 31) {
+                                                $unit = "ngày";
+                                            } elseif ($diffInDays < 365) {
+                                                $diffInDays = round($diffInDays / 30);
+                                                $unit = "tháng";
+                                            } else {
+                                                $diffInDays = round($diffInDays / 365);
+                                                $unit = "năm";
                                             }
                                     @endphp
                                     <tr style="color: {{$color}};">
@@ -114,7 +122,13 @@
                                         <td>{{$row->HD_MaCSHT}}</td>
                                         <td>{{$row->HD_TenChuDauTu}}</td>
                                         <td><a href="{{$row->HD_HDScan}}">Hợp Đồng PDF</a></td>
-                                        <td>{{$diffInDays}}</td>
+                                        <td>
+                                            @if ($diffInDays <= 0)
+                                                Hết hạn
+                                            @else
+                                                {{$diffInDays}} {{$unit}}
+                                            @endif
+                                        </td>
                                         <td>{{\Carbon\Carbon::parse($row->HD_NgayPhuLuc)->format('d/m/Y')}}</td>
                                         <td>
                                             @if($quyens)

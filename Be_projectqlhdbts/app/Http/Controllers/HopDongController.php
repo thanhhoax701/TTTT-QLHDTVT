@@ -35,20 +35,20 @@ class HopDongController extends Controller
                     ->where('HD_MaHD', 'LIKE', '%' . $request->get('search') . '%')
                     ->orwhere('HD_MaCSHT', 'LIKE', '%' . $request->get('search') . '%')
                     ->orwhere('T_TenTram', 'LIKE', '%' . $request->get('search') . '%')
-                    ->orwhere('T_MaTram', 'LIKE', '%' . $request->get('search') . '%')->paginate(5);
+                    ->orwhere('T_MaTram', 'LIKE', '%' . $request->get('search') . '%')->paginate(7);
                 return view('hopdong/hopdong', compact('title', 'breadcrumbs','request'), $hopdong);
             } else {
                 $hopdong['hopdong'] = DB::table('hop_dong')->where('HD_MaHD', 'LIKE', '%' . $request->get('search') . '%')
                     ->orwhere('HD_MaCSHT', 'LIKE', '%' . $request->get('search') . '%')
                     ->orwhere('T_TenTram', 'LIKE', '%' . $request->get('search') . '%')
-                    ->orwhere('T_MaTram', 'LIKE', '%' . $request->get('search') . '%')->paginate(5);
+                    ->orwhere('T_MaTram', 'LIKE', '%' . $request->get('search') . '%')->paginate(7);
                 return view('hopdong/hopdong', compact('title', 'breadcrumbs','request'), $hopdong);
             }
         } else {
             if (!empty($dv))
-                $hopdong['hopdong'] = DB::table('hop_dong')->where('DV_MaDV', $dv->DV_MaDV)->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->paginate(5);
+                $hopdong['hopdong'] = DB::table('hop_dong')->where('DV_MaDV', $dv->DV_MaDV)->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->paginate(7);
             else
-                $hopdong['hopdong'] = DB::table('hop_dong')->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->paginate(5);
+                $hopdong['hopdong'] = DB::table('hop_dong')->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->paginate(7);
 
             return view('hopdong/hopdong', compact('title', 'breadcrumbs','request'), $hopdong);
         }
@@ -118,8 +118,14 @@ class HopDongController extends Controller
             $path = public_path() . '/uploads/' . $fileName;
             // dd('a');
 
-            Excel::import(new HDImport, $path);
-            return redirect(route('import'))->with('success', 'import thành công');
+            $import = new HDImport;
+            Excel::import($import, $path);
+            // dd($import);
+            if($import->result){
+                return redirect(route('import'))->with('success', 'import thành công');
+            }   else{
+                return redirect(route('import'))->with('error', 'Dòng dữ liệu thiếu mã hợp đồng (HD_MaHD) tại dòng '.$import->dong.'.');
+            }
         } else {
             return redirect()->back()->withErrors($validator);
         }
