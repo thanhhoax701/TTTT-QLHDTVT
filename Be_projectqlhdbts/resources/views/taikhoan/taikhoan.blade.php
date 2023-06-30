@@ -60,27 +60,30 @@
                             @php
                             $qnd = $taikhoan->quyennguoidungs()->first();
                             if($qnd){
-                            $q = $qnd->quyen()->first();
-                            $quyen = ($q)?$q->Q_TenQ:'';
+                                $q = $qnd->quyen()->first();
+                                $quyen = ($q)?$q->Q_TenQ:'';
                             }
                             if(!empty($role)&&$role->Q_MaQ!='Q0'){
-                            if(!empty($q)){
-                            if($q->Q_MaQ!=$role->Q_MaQ){
-                            continue;
+                                if(!empty($q)){
+                                    if($q->Q_MaQ=='Q0'){
+                                        continue;
+                                    }
+                                }
                             }
-                            }
+                            if(!empty($role)&&$role->Q_MaQ=='Q1'&&$taikhoan->id!=$id){
+                                continue;
                             }
                             @endphp
                             <tr>
-                                <th scope="row"><?= $stt++ ?></th>
-                                <td><img src="{{asset($taikhoan->avatar)}}" alt="avatar" width="100" height="100"></td>
-                                <td>{{$taikhoan->ND_MaND}}</td>
-                                <td>{{$taikhoan->name}}</td>
-                                <td>{{$taikhoan->ND_GioiTinh}}</td>
-                                <td>{{$taikhoan->ND_DiaChi}}</td>
-                                <td>{{$taikhoan->email}}</td>
-                                <td>{{$taikhoan->ND_SDT}}</td>
-                                <td>{{$quyen}}</td>
+                                <th style="text-align:right" scope="row"><?= $stt++ ?></th>
+                                <td style="text-align:left"><img src="{{asset($taikhoan->avatar)}}" alt="avatar" width="100" height="100"></td>
+                                <td style="text-align:left">{{$taikhoan->ND_MaND}}</td>
+                                <td style="text-align:left">{{$taikhoan->name}}</td>
+                                <td style="text-align:left">{{$taikhoan->ND_GioiTinh}}</td>
+                                <td style="text-align:left">{{$taikhoan->ND_DiaChi}}</td>
+                                <td style="text-align:left">{{$taikhoan->email}}</td>
+                                <td style="text-align:right">{{$taikhoan->ND_SDT}}</td>
+                                <td style="text-align:left">{{$quyen}}</td>
                                 <td>
                                     <div class="d-flex ">
                                         <a href="{{route('taikhoan-hienthi', $taikhoan->id)}}" class="btn btn-info me-md-3 m-1">

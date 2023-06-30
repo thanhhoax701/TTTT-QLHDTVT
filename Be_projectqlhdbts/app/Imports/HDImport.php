@@ -38,6 +38,7 @@ class HDImport implements ToCollection, WithHeadingRow
                     $this->dong =$key+3;
                     return ;
                 }
+
                 if ($hopdong != null) {
                     $newhopdong['ND_MaND'] = $user;
                     $newhopdong['T_MaTram'] = $row["ma_tram"];
@@ -66,25 +67,27 @@ class HDImport implements ToCollection, WithHeadingRow
                     $this->newPhuluc($oldhopdong);
                     HopDong::where('HD_MaHD', $row['ma_hop_dong'])->update($newhopdong);
                 } else {
-                    $hopdong = new HopDong;
-                    $hopdong->HD_MaHD = $row["ma_hop_dong"];
-                    $hopdong->ND_MaND = $user;
-                    $hopdong->T_MaTram = $row["ma_tram"];
-                    $hopdong->DV_MaDV = $row["ma_don_vi"];
-                    $hopdong->HD_MaCSHT = $row["ma_csht"];
-                    $hopdong->T_TenTram = $row["ten_tram"];
-                    $hopdong->HD_NgayDangKy = Carbon::createFromFormat('d/m/Y', $row["ngay_dang_ky"])->toDateString();
-                    $hopdong->HD_NgayHetHan = Carbon::createFromFormat('d/m/Y', $row["ngay_het_han"])->toDateString();
-                    $hopdong->HD_NgayPhuLuc = Carbon::now()->toDateString();
-                    $hopdong->HD_GiaGoc = $row["gia_goc"];
-                    $hopdong->HD_GiaHienTai = $row["gia_hien_tai"];
-                    $hopdong->HD_SoTaiKhoan = $row["so_tai_khoan"];
-                    $hopdong->HD_TenCTK = $row["ten_chu_tai_khoan"];
-                    $hopdong->HD_TenNH = $row["ten_ngan_hang"];
-                    $hopdong->HD_TenChuDauTu =  $row["ten_chu_dau_tu"];
-                    $hopdong->HD_HDScan = str_replace('/file/d/', '/uc?export=download&id=',  $row["hop_dong"]);
-                    $hopdong->HD_HDScan = str_replace('/view?usp=sharing', '', $hopdong->HD_HDScan);
-                    $hopdong->save();
+                        
+                        // cho phép import hợp đồng mới
+                        $hopdong = new HopDong;
+                        $hopdong->HD_MaHD = $row["ma_hop_dong"];
+                        $hopdong->ND_MaND = $user;
+                        $hopdong->T_MaTram = $row["ma_tram"];
+                        $hopdong->DV_MaDV = $row["ma_don_vi"];
+                        $hopdong->HD_MaCSHT = $row["ma_csht"];
+                        $hopdong->T_TenTram = $row["ten_tram"];
+                        $hopdong->HD_NgayDangKy = Carbon::createFromFormat('d/m/Y', $row["ngay_dang_ky"])->toDateString();
+                        $hopdong->HD_NgayHetHan = Carbon::createFromFormat('d/m/Y', $row["ngay_het_han"])->toDateString();
+                        $hopdong->HD_NgayPhuLuc = Carbon::now()->toDateString();
+                        $hopdong->HD_GiaGoc = $row["gia_goc"];
+                        $hopdong->HD_GiaHienTai = $row["gia_hien_tai"];
+                        $hopdong->HD_SoTaiKhoan = $row["so_tai_khoan"];
+                        $hopdong->HD_TenCTK = $row["ten_chu_tai_khoan"];
+                        $hopdong->HD_TenNH = $row["ten_ngan_hang"];
+                        $hopdong->HD_TenChuDauTu =  $row["ten_chu_dau_tu"];
+                        $hopdong->HD_HDScan = str_replace('/file/d/', '/uc?export=download&id=',  $row["hop_dong"]);
+                        $hopdong->HD_HDScan = str_replace('/view?usp=sharing', '', $hopdong->HD_HDScan);
+                        $hopdong->save();
                 }
             }
             DB::commit();
