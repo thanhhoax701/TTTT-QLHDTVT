@@ -18,7 +18,28 @@
         <div id="content">
             <!-- Tieu de -->
             @include('partials.common.tieude')
-
+            <!-- start modal ajax edit--->
+            <div class="modal fade" id="editHopDong">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Cập Nhật Hợp Đồng</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="alert alert-danger" style="display:none"></div>
+                            <form id="body_edit" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--  end modal ajax edit--->
             <!-- Content -->
             <?php $stt = 1 ?>
             @if (!empty($request->search)&&$hopdong->count() <= 0) <h3 class="container">Hợp đồng đã tìm kiếm không tồn tại</h3>
@@ -34,15 +55,21 @@
                     $quyens = auth()->user()->quyennguoidungs()->where('Q_MaQ', 'Q1')->first();
                     }
                     @endphp
-                    @if($quyens)
-                    <form action="{{route('start-import')}}" class="form" method="POST" enctype="multipart/form-data">
+                    <form action="{{route('start-import')}}" class="form d-flex justify-content-between align-items-center" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <div class="text-left">
+                            <ul class="text-left">Chú thích:
+                                <li class="text-warning">Màu cam: Hợp đồng đã hết hạn</li>
+                                <li class="text-dark">Màu đen: Hợp đồng chưa hết hạn</li>
+                            </ul>
+                        </div>
+                        @if($quyens)
+                        <div class="d-grid gap-3 d-md-flex justify-content-md-end">
                             <input type="file" name="file" id="file" class="btn btn-success me-md-2 mt-1 mb-1" />
                             <button type="submit" class="btn btn-success me-md-2 mt-1 mb-1">Import</button>
                         </div>
+                        @endif
                     </form>
-                    @endif
                     <form action="{{route('export')}}" class="form" method="POST" enctype="multipart/form-data">
                         @csrf
                         <!--Export-->
@@ -65,12 +92,11 @@
                                             <th scope="col-6 col-md-4" style="min-width: 120px;">Tại ngân hàng</th>
                                             <th scope="col-6 col-md-4">Ngày ký HĐ</th>
                                             <th scope="col-6 col-md-4" style="min-width: 120px;">Ngày hết hạn</th>
-                                            <th scope="col-6 col-md-4">Giá thuê</th>
+                                            <th scope="col-6 col-md-4">Giá thuê (VNĐ)</th>
                                             <th scope="col-6 col-md-4" style="min-width: 150px">Mã trạm theo HĐ</th>
                                             <th scope="col-6 col-md-4" style="min-width: 120px;">Tên trạm</th>
                                             <th scope="col-6 col-md-4">Mã CSHT</th>
                                             <th scope="col-6 col-md-4">Tên chủ đầu tư</th>
-                                            <th scope="col-6 col-md-4">Hợp đồng</th>
                                             <th scope="col-6 col-md-4" style="min-width: 120px;">Thời hạn</th>
                                             <th scope="col-6 col-md-4" style="min-width: 120px;">Ngày phụ lục</th>
                                             <th scope="col-6 col-md-4">Tùy chỉnh</th>
@@ -108,17 +134,16 @@
                                                 <td style="text-align:left">{{$row->T_TenTram}}</td>
                                                 <td style="text-align:left"> {{$row->HD_MaCSHT}}</td>
                                                 <td style="text-align:left">{{$row->HD_TenChuDauTu}}</td>
-                                                <td style="text-align:left"><a href="{{$row->HD_HDScan}}">Hợp Đồng PDF</a></td>
                                                 <td>
                                                     @if ($diffInDays <= 0) Hết hạn @else {{$diffInDays}} {{$unit}} @endif </td>
                                                 <td>{{\Carbon\Carbon::parse($row->HD_NgayPhuLuc)->format('d/m/Y')}}</td>
                                                 <td>
                                                     @if($quyens)
-                                                    <a href="{{route('hopdong-capnhat', $row->HD_MaHD)}}" class="btn btn-primary me-md-3">
+                                                    <a onclick=capnhat_hopdong('{{$row->HD_MaHD}}') class="btn btn-primary me-md-3">
                                                         <i class="fas fa-edit"></i> Cập nhật
                                                     </a>
                                                     @endif
-                                                    <a class="btn btn-secondary me-md-3" href="{{ $row->HD_HDScan }}">Download PDF</a>
+                                                    <a class="btn btn-secondary me-md-3" href="{{ $row->HD_HDScan }}">File PDF</a>
                                                 </td>
                                                 </tr>
                                                 @endforeach
@@ -128,7 +153,7 @@
                             {{ $hopdong->links() }}
                         </div>
                     </form>
-                    <div class="alert" style="text-align: center;">
+                    <!-- <div class="alert" style="text-align: center;">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Hướng dẫn sử dụng</button>
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
@@ -145,7 +170,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 @endif
         </div>
@@ -155,10 +180,48 @@
 @endsection
 
 @section('JS')
+
 <script>
-    $('#myModal').on('shown.bs.modal', function() {
-        $('#myInput').trigger('focus')
-    })
+    // $('#myModal').on('shown.bs.modal', function() {
+    //     $('#myInput').trigger('focus')
+    // })
+    $('.close').click(function() {
+        $('#editHopDong').modal('hide');
+    });
+
+    function capnhat_hopdong(HD_MaHD) {
+        // $.get('{{Url("/design/edit")}}/' + id, function (data) {
+        $.get('./hopdong/capnhat/' + HD_MaHD, function(data) {
+            $("#body_edit").html(data);
+            // console.log(data);
+            // getDesignSuggest(id)
+        });
+        $('#editHopDong').modal('show');
+
+    }
+    $('#body_edit').submit(function(evt) {
+        evt.preventDefault();
+        var formData = new FormData(this);
+        var HD_MaHD = $("#HD_MaHD").val();
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            //url: '{{Url("/design/update-post")}}',
+            url: './hopdong/update/' + HD_MaHD,
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                var successMessage = data.message;
+                if (successMessage) {
+                    $('#editHopDong').modal('hide');
+                    window.location.href = './hopdong';
+                }
+
+            },
+        });
+    });
 </script>
 
 @endsection
