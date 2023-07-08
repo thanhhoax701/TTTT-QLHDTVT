@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\HopDong;
+use App\Models\PhuLuc;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Request;
@@ -14,9 +15,10 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Events\AfterSheet;
 
-class HDExport implements FromView, ShouldAutoSize, WithDefaultStyles, WithStyles, WithEvents
+class BaoCaoExport implements FromView, ShouldAutoSize, WithDefaultStyles, WithStyles, WithEvents
 {
     protected $request;
+
     public function __construct($request)
     {
         $this->request = $request;
@@ -25,17 +27,54 @@ class HDExport implements FromView, ShouldAutoSize, WithDefaultStyles, WithStyle
     public function view(): View
     {
         $hd = [];
-        if ($this->request->has('exportall')) {
-            $HopDong = HopDong::select('HD_MaHD','ND_MaND','T_MaTram','DV_MaDV','HD_MaCSHT','T_TenTram','HD_NgayDangKy','HD_NgayHetHan','HD_NgayPhuLuc','HD_GiaGoc','HD_GiaHienTai','HD_SoTaiKhoan','HD_TenCTK','HD_TenNH','HD_TenChuDauTu')->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->get();
-        } else {
-            foreach ($this->request->HD as $value) {
-                array_push($hd, $value);
+        // dd($this->request->HD);
+        if ($this->request->has('HD')) {
+            foreach ($this->request->HD as $key => $value) {
+                if ($this->request->type[$key] == 'hop_dong') {
+                    $HopDong = HopDong::select(
+                        'HD_MaHD',
+                        'ND_MaND',
+                        'T_MaTram',
+                        'DV_MaDV',
+                        'HD_MaCSHT',
+                        'T_TenTram',
+                        'HD_NgayDangKy',
+                        'HD_NgayHetHan',
+                        'HD_NgayPhuLuc',
+                        'HD_GiaGoc',
+                        'HD_GiaHienTai',
+                        'HD_SoTaiKhoan',
+                        'HD_TenCTK',
+                        'HD_TenNH',
+                        'HD_TenChuDauTu',
+                        'HD_HDScan',
+                    )->where('HD_MaHD',$value)->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->first();
+                } else {
+                    $HopDong = PhuLuc::select(
+                        'HD_MaHD',
+                        'ND_MaND',
+                        'T_MaTram',
+                        'DV_MaDV',
+                        'HD_MaCSHT',
+                        'T_TenTram',
+                        'HD_NgayDangKy',
+                        'HD_NgayHetHan',
+                        'HD_NgayPhuLuc',
+                        'HD_GiaGoc',
+                        'HD_GiaHienTai',
+                        'HD_SoTaiKhoan',
+                        'HD_TenCTK',
+                        'HD_TenNH',
+                        'HD_TenChuDauTu',
+                        'HD_HDScan',
+                    )->where('HD_MaHD',$value)->orderByRaw("CAST(SUBSTR(HD_MaHD, 3) AS UNSIGNED)")->first();
+                }
+                array_push($hd, $HopDong);
             }
-            $HopDong = HopDong::select('HD_MaHD','ND_MaND','T_MaTram','DV_MaDV','HD_MaCSHT','T_TenTram','HD_NgayDangKy','HD_NgayHetHan','HD_NgayPhuLuc','HD_GiaGoc','HD_GiaHienTai','HD_SoTaiKhoan','HD_TenCTK','HD_TenNH','HD_TenChuDauTu')->wherein('HD_MaHD', $hd)->get();
         }
-
-        return view('HDexport', [
-            'HopDong' => $HopDong
+        // dd($hd);
+        return view('BaoCaoExport', [
+            'HopDong' => $hd
         ]);
     }
 
@@ -103,6 +142,12 @@ class HDExport implements FromView, ShouldAutoSize, WithDefaultStyles, WithStyle
         $sheet->getStyle('N2:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
             ->getAlignment()
             ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+        $sheet->getStyle('O2:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
+            ->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
+        $sheet->getStyle('P2:' . $sheet->getHighestColumn() . $sheet->getHighestRow())
+            ->getAlignment()
+            ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT);
         return $sheet;
     }
 
@@ -110,7 +155,7 @@ class HDExport implements FromView, ShouldAutoSize, WithDefaultStyles, WithStyle
     {
         return [
             AfterSheet::class => function (AfterSheet $event) {
-                $event->sheet->getDelegate()->mergeCells('A1:N1');
+                $event->sheet->getDelegate()->mergeCells('A1:P1');
 
                 $event->sheet->getDelegate()->getRowDimension('1')->setRowHeight(40);
 
@@ -121,7 +166,7 @@ class HDExport implements FromView, ShouldAutoSize, WithDefaultStyles, WithStyle
                     ->getColor()->setARGB('E31616');
 
 
-                $cellRange = 'A2:N2';
+                $cellRange = 'A2:P2';
                 $event->sheet->getDelegate()->getStyle($cellRange)
                     ->getFont()->setName('Time New Roman')
                     ->setBold(true)

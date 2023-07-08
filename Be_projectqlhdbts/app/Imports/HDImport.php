@@ -26,8 +26,6 @@ class HDImport implements ToCollection, WithHeadingRow
     public function collection(Collection $rows)
     {
         DB::beginTransaction();
-        try{
-
             foreach ($rows as $key => $row) {
                 $hopdong = HopDong::where('HD_MaHD', $row["ma_hop_dong"])->first();
                 $newhopdong = [];
@@ -88,13 +86,6 @@ class HDImport implements ToCollection, WithHeadingRow
             }
             DB::commit();
             // $result = true;
-        }catch(\Exception $e){
-            DB::rollBack();
-            $this->result = false;
-            $this->dong +=3;
-            // Session::flash('error', $e->getMessage());
-        }
-
     }
     public function headingRow(): int
     {
@@ -118,7 +109,7 @@ class HDImport implements ToCollection, WithHeadingRow
         $phuluc->HD_TenCTK = $oldhopdong["HD_TenCTK"];
         $phuluc->HD_TenNH = $oldhopdong["HD_TenNH"];
         $phuluc->HD_TenChuDauTu =  $oldhopdong["HD_TenChuDauTu"];
-        $phuluc->HD_HDScan = $oldhopdong["HD_HDScan"];
+        // $phuluc->HD_HDScan = $oldhopdong["HD_HDScan"];
         $phuluc->noidung = $oldhopdong["noidung"];
         $phuluc->save();
     }

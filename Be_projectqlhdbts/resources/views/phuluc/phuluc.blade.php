@@ -76,7 +76,7 @@
                                         <td style="text-align:left">{{$row->HD_TenNH}}</td>
                                         <td style="text-align:right">{{\Carbon\Carbon::parse($row->HD_NgayDangKy)->format('d/m/Y')}}</td>
                                         <td style="text-align:right">{{\Carbon\Carbon::parse($row->HD_NgayHetHan)->format('d/m/Y')}}</td>
-                                        <td style="text-align:right">{{$row->HD_GiaHienTai}}</td>
+                                        <td style="text-align:right">{{$row->HD_GiaHienTai}} VND</td>
                                         <td style="text-align:left">{{$row->T_MaTram}}</td>
                                         <td style="text-align:left">{{$row->T_TenTram}}</td>
                                         <td style="text-align:left">{{$row->HD_MaCSHT}}</td>
@@ -85,7 +85,7 @@
                                         <td style="text-align:right">{{\Carbon\Carbon::parse($row->HD_NgayPhuLuc)->format('d/m/Y')}}</td>
                                         <td>
                                             <a href="{{route('phuluc-hienthi', $row->id)}}" class="btn btn-secondary me-md-3">Chi tiết</a>
-                                            <a class="btn btn-secondary me-md-3" href="{{ $row->HD_HDScan }}">Download PDF</a>
+                                            <a class="btn btn-secondary me-md-3" href="">Phu Luc PDF</a>
                                         </td>
                                     </tr>
                                     @endforeach
